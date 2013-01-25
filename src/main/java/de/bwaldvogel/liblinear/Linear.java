@@ -316,9 +316,9 @@ public class Linear {
         return predictValues(model, x, dec_values);
     }
 
-    public static double predict(Model model, int[] fn, double[] fv) {
+    public static double predictWithArrays(Model model, int[] fn, double[] fv) {
         double[] dec_values = new double[model.nr_class];
-        return predictValues(model, fn, fv, dec_values);
+        return predictValuesWithArrays(model, fn, fv, dec_values);
     }
 
     /**
@@ -356,7 +356,7 @@ public class Linear {
     /**
      * @throws IllegalArgumentException if model is not probabilistic (see {@link Model#isProbabilityModel()})
      */
-    public static double predictProbability(Model model, int[] fn, double[] fv, double[] prob_estimates) throws IllegalArgumentException {
+    public static double predictProbabilityWithArrays(Model model, int[] fn, double[] fv, double[] prob_estimates) throws IllegalArgumentException {
         if (!model.isProbabilityModel()) {
             throw new IllegalArgumentException("probability output is only supported for logistic regression");
         }
@@ -367,7 +367,7 @@ public class Linear {
         else
             nr_w = nr_class;
 
-        double label = predictValues(model, fn, fv, prob_estimates);
+        double label = predictValuesWithArrays(model, fn, fv, prob_estimates);
         for (int i = 0; i < nr_w; i++)
             prob_estimates[i] = 1 / (1 + Math.exp(-prob_estimates[i]));
 
@@ -430,7 +430,7 @@ public class Linear {
     /**
      * @throws IllegalArgumentException if array of feature data is invalid
      */
-    public static double predictValues(Model model, int[] fn, double[] fv, double[] dec_values) {
+    public static double predictValuesWithArrays(Model model, int[] fn, double[] fv, double[] dec_values) {
     	if (fn.length != fv.length) {
     		throw new IllegalArgumentException("the number of fn and fv should be the same number");
     	}
